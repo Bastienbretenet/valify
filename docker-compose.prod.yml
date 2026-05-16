@@ -1,7 +1,6 @@
 services:
   backend:
     build: ./backend
-    env_file: .env.prod
     # No ports — not exposed, only reachable via frontend proxy
     depends_on:
       postgres:
@@ -20,7 +19,6 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
-    env_file: .env.prod
     ports:
       - "3000:3000"
     depends_on:
