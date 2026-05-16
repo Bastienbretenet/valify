@@ -1,16 +1,14 @@
 services:
   backend:
     build: ./backend
-    env_file: .env.dev
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./backend:/app
+    env_file: .env.prod
+    # No ports — not exposed, only reachable via frontend proxy
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 10s
@@ -19,23 +17,22 @@ services:
       start_period: 15s
 
   frontend:
-    build: ./frontend
-    env_file: .env.dev
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    env_file: .env.prod
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/.next
     depends_on:
       backend:
         condition: service_healthy
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 20s
+      start_period: 30s
 
   postgres:
     image: postgres:17-alpine
@@ -45,6 +42,7 @@ services:
       POSTGRES_PASSWORD: valify
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U valify -d valify"]
       interval: 5s
@@ -56,6 +54,7 @@ services:
     image: redis:8-alpine
     volumes:
       - redis_data:/data
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
