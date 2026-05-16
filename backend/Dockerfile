@@ -5,6 +5,7 @@ WORKDIR /app
 RUN pip install uv
 
 COPY pyproject.toml .
+COPY app ./app
 RUN uv pip install --system -e .
 
 COPY . .
