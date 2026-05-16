@@ -15,6 +15,7 @@ _COOKIE_OPTS = {
     "httponly": True,
     "samesite": "lax" if settings.debug else "none",
     "secure": not settings.debug,
+    **({"domain": settings.cookie_domain} if settings.cookie_domain else {}),
 }
 
 
@@ -40,6 +41,7 @@ async def logout(response: Response):
         COOKIE_NAME,
         samesite="lax" if settings.debug else "none",
         secure=not settings.debug,
+        domain=settings.cookie_domain or None,
     )
 
 

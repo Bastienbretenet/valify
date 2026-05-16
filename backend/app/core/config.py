@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     groq_api_key: str = ""
     openrouter_api_key: str = ""
     app_url: str = "http://localhost:3000"
+    cookie_domain: str = ""
     cors_origins: Annotated[list[str], NoDecode, BeforeValidator(_split_csv)] = [
         "http://localhost:3000"
     ]
