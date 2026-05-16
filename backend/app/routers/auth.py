@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import settings
 from app.core.dependencies import get_current_user, get_db
 from app.core.security import COOKIE_NAME, create_token
 from app.db.models.user import User
@@ -12,8 +13,8 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 _COOKIE_OPTS = {
     "key": COOKIE_NAME,
     "httponly": True,
-    "samesite": "lax",
-    "secure": False,  # set True in prod (HTTPS)
+    "samesite": "lax" if settings.debug else "none",
+    "secure": not settings.debug,
 }
 
 
@@ -35,7 +36,11 @@ async def login(data: LoginRequest, response: Response, db: AsyncSession = Depen
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
 async def logout(response: Response):
-    response.delete_cookie(COOKIE_NAME)
+    response.delete_cookie(
+        COOKIE_NAME,
+        samesite="lax" if settings.debug else "none",
+        secure=not settings.debug,
+    )
 
 
 @router.get("/me", response_model=UserResponse)
