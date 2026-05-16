@@ -7,8 +7,6 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - ./backend:/app
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 10s
@@ -24,8 +22,6 @@ services:
     depends_on:
       backend:
         condition: service_healthy
-    volumes:
-      - ./frontend:/app
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
       interval: 10s
