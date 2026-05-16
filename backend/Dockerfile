@@ -6,10 +6,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf 
 
 RUN pip install uv
 
-COPY pyproject.toml .
+COPY pyproject.toml ./
 COPY app ./app
 RUN uv pip install --system -e .
-
-COPY . .
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
