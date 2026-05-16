@@ -1,7 +1,8 @@
 services:
   backend:
     build: ./backend
-    # No ports — not exposed, only reachable via frontend proxy
+    expose:
+      - "8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -19,7 +20,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
-    # No ports — Coolify/Traefik routes via internal network
+    expose:
+      - "3000"
     depends_on:
       backend:
         condition: service_healthy
