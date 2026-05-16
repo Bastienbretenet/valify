@@ -40,14 +40,14 @@ services:
   postgres:
     image: postgres:17-alpine
     environment:
-      POSTGRES_DB: valify
-      POSTGRES_USER: valify
-      POSTGRES_PASSWORD: valify
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_v2:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U valify -d valify"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 3s
       retries: 10
@@ -56,7 +56,7 @@ services:
   redis:
     image: redis:8-alpine
     volumes:
-      - redis_data:/data
+      - redis_data_v2:/data
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -65,5 +65,5 @@ services:
       retries: 10
 
 volumes:
-  postgres_data:
-  redis_data:
+  postgres_data_v2:
+  redis_data_v2:
