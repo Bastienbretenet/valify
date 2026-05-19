@@ -215,7 +215,7 @@ const CASES: { prompt: string; response: unknown }[] = [
   },
   {
     prompt:
-      "Créer un programme Cardio débutant avec pour objectif la perte de poids sur 6 semaines et 3 entrainements par semaines.",
+      "Créer un programme Cardio débutant avec pour objectif la perte de poids sur 6 semaines et 3 ou 4 entrainements par semaines.",
     response: {
       valid: true,
       missing: [],
