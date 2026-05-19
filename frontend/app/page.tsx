@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Demo from "./_components/Demo";
 
 export default function Home() {
   return (
@@ -20,16 +21,31 @@ export default function Home() {
       <section className="hero">
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-inner">
-          <div className="hero-badge">API-first · LLM validation</div>
+          <div className="hero-badge">API-first · Pre-flight LLM</div>
           <h1 className="hero-title">
-            Validez chaque<br />
-            <span className="hero-accent">message utilisateur</span><br />
-            avant qu&apos;il parte.
+            Filtrez les prompts<br />
+            <span className="hero-accent">avant qu&apos;ils ne coûtent cher.</span>
           </h1>
           <p className="hero-sub">
-            Configurez des règles, un schéma JSON, et appelez une seule route.<br />
-            Le LLM fait le reste. Zéro prompt engineering côté client.
+            Un modèle léger vérifie complétude, schéma et règles métier avant
+            d&apos;appeler votre modèle premium. Les requêtes incomplètes
+            repartent avec une question de relance — sans brûler un seul token
+            GPT-5 ou Claude Opus.
           </p>
+          <ul className="hero-stats">
+            <li>
+              <span className="hero-stat-num">~95%</span>
+              <span className="hero-stat-label">coût en moins par requête de validation</span>
+            </li>
+            <li>
+              <span className="hero-stat-num">0</span>
+              <span className="hero-stat-label">token gaspillé sur prompt incomplet</span>
+            </li>
+            <li>
+              <span className="hero-stat-num">1</span>
+              <span className="hero-stat-label">route API, JSON structuré garanti</span>
+            </li>
+          </ul>
           <div className="hero-cta">
             <Link href="/register" className="btn-primary btn-lg">Démarrer gratuitement</Link>
             <Link href="/login" className="btn-outline btn-lg">Voir la démo</Link>
@@ -40,6 +56,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <Demo />
 
       {/* Features */}
       <section className="features">
@@ -75,6 +93,70 @@ export default function Home() {
               Chaque appel est tracé. Consultez les résultats, déboguez
               les rejets, analysez l&apos;usage par call.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section className="pricing">
+        <div className="pricing-inner">
+          <div className="pricing-head">
+            <div className="pricing-badge">Pricing</div>
+            <h2 className="pricing-title">Tarifs</h2>
+            <p className="pricing-sub">
+              Un abonnement. Une API. Aucun frais caché.
+            </p>
+          </div>
+
+          <div className="pricing-table-wrap">
+            <table className="pricing-table">
+              <thead>
+                <tr>
+                  <th>Plan</th>
+                  <th>Prix</th>
+                  <th>Coût / req</th>
+                  <th>Coût / 10k req</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <span className="plan-name">Starter</span>
+                    <span className="plan-quota">10k req/mois</span>
+                  </td>
+                  <td className="num">$4.99<span className="suffix">/mois</span></td>
+                  <td className="num">$0.000499</td>
+                  <td className="num">$4.99</td>
+                </tr>
+                <tr>
+                  <td>
+                    <span className="plan-name">Pro</span>
+                    <span className="plan-quota">50k req/mois</span>
+                  </td>
+                  <td className="num">$19.99<span className="suffix">/mois</span></td>
+                  <td className="num">$0.0004</td>
+                  <td className="num">$4.00</td>
+                </tr>
+                <tr>
+                  <td>
+                    <span className="plan-name">Business</span>
+                    <span className="plan-quota">200k req/mois</span>
+                  </td>
+                  <td className="num">$59.99<span className="suffix">/mois</span></td>
+                  <td className="num">$0.0003</td>
+                  <td className="num">$3.00</td>
+                </tr>
+                <tr>
+                  <td>
+                    <span className="plan-name">Enterprise</span>
+                    <span className="plan-quota">200k+ req/mois</span>
+                  </td>
+                  <td className="num">Sur devis</td>
+                  <td className="num dim">—</td>
+                  <td className="num dim">—</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
@@ -230,8 +312,36 @@ export default function Home() {
           font-size: 1.1rem;
           line-height: 1.7;
           color: #7070a0;
-          max-width: 540px;
+          max-width: 600px;
+          margin: 0 0 2rem;
+        }
+        .hero-stats {
+          list-style: none;
+          padding: 0;
           margin: 0 0 2.5rem;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 1.25rem;
+          max-width: 720px;
+        }
+        .hero-stats li {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+          padding-left: 0.85rem;
+          border-left: 2px solid rgba(79,142,247,0.4);
+        }
+        .hero-stat-num {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 1.35rem;
+          font-weight: 700;
+          color: #4f8ef7;
+          letter-spacing: -0.02em;
+        }
+        .hero-stat-label {
+          font-size: 0.8rem;
+          line-height: 1.4;
+          color: #6060a0;
         }
         .hero-cta {
           display: flex;
@@ -304,6 +414,120 @@ export default function Home() {
           line-height: 1.65;
           color: #6060a0;
           margin: 0;
+        }
+
+        /* Pricing */
+        .pricing {
+          padding: 5rem 2rem;
+          border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .pricing-inner {
+          max-width: 1100px;
+          margin: 0 auto;
+        }
+        .pricing-head {
+          text-align: center;
+          margin-bottom: 3rem;
+        }
+        .pricing-badge {
+          display: inline-block;
+          margin-bottom: 1rem;
+          padding: 0.25rem 0.75rem;
+          border: 1px solid rgba(79,142,247,0.3);
+          border-radius: 2px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.7rem;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: #4f8ef7;
+          background: rgba(79,142,247,0.06);
+        }
+        .pricing-title {
+          font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+          font-weight: 700;
+          letter-spacing: -0.03em;
+          margin: 0 0 0.75rem;
+          color: #f0f0fa;
+        }
+        .pricing-sub {
+          font-size: 1rem;
+          color: #7070a0;
+          margin: 0;
+        }
+        .pricing-table-wrap {
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 6px;
+          overflow: hidden;
+          background: #0d0d14;
+        }
+        .pricing-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 0.9rem;
+        }
+        .pricing-table thead th {
+          padding: 0.95rem 1.25rem;
+          text-align: left;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.7rem;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: #6060a0;
+          background: rgba(255,255,255,0.02);
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .pricing-table tbody td {
+          padding: 1.1rem 1.25rem;
+          border-bottom: 1px solid rgba(255,255,255,0.04);
+          color: #c8c8e0;
+          vertical-align: middle;
+        }
+        .pricing-table tbody tr:last-child td {
+          border-bottom: none;
+        }
+        .pricing-table tbody tr:hover td {
+          background: rgba(79,142,247,0.04);
+        }
+        .plan-name {
+          display: block;
+          font-size: 0.72rem;
+          font-weight: 600;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #4f8ef7;
+          margin-bottom: 0.3rem;
+        }
+        .plan-quota {
+          display: block;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #f0f0fa;
+          letter-spacing: -0.02em;
+        }
+        .pricing-table .num {
+          font-family: 'JetBrains Mono', monospace;
+          font-variant-numeric: tabular-nums;
+          font-size: 0.95rem;
+          color: #e8e8f0;
+        }
+        .pricing-table .num .suffix {
+          color: #6060a0;
+          font-size: 0.78rem;
+          margin-left: 0.15rem;
+        }
+        .pricing-table .num.margin {
+          color: #4ade80;
+          font-weight: 600;
+        }
+        .pricing-table .num.dim {
+          color: #3a3a5a;
+        }
+        @media (max-width: 760px) {
+          .pricing { padding: 4rem 1.25rem; }
+          .pricing-table-wrap { overflow-x: auto; }
+          .pricing-table { min-width: 640px; }
         }
 
         /* CTA bottom */
