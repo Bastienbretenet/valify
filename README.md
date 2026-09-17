@@ -2,20 +2,14 @@
 
 SaaS de validation de prompts par LLM. Les clients configurent des "calls" (champs attendus + schéma de retour JSON) et appellent une API unique pour valider n'importe quel message utilisateur.
 
----
-
-## Prérequis
-
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- Une clé API [Groq](https://console.groq.com)
-
+[Démo live](https://valify.bastienbretenet.fr)
 ---
 
 ## Démarrage
 
 ```bash
 cp .env.example .env
-# Ajouter GROQ_API_KEY=gsk_xxxx dans .env
+# Ajouter OPENROUTER_API_KEY= dans .env
 
 docker compose up --build
 
@@ -94,7 +88,7 @@ docker compose exec backend alembic downgrade -1
 | ORM | SQLAlchemy 2.0.49 + Alembic 1.18.4 |
 | Base de données | PostgreSQL 17 |
 | Cache / Rate limiting | Redis 8 + redis-py 7.1.1 |
-| LLM | Groq API (llama-3.1-8b-instant) |
+| LLM | Open Router API (google/gemini-2.0-flash-001) |
 | Frontend | Next.js 16.2 + Tailwind v4 + shadcn/ui |
 | Auth | JWT httpOnly cookie (PyJWT) |
 | Infra | Docker Compose + Coolify |
@@ -104,20 +98,9 @@ docker compose exec backend alembic downgrade -1
 ## Structure
 
 ```
-CLAUDE.md              # Instructions pour Claude Code
-docs/                  # Documentation technique par domaine
 backend/               # FastAPI
 frontend/              # Next.js
 docker-compose.yml     # Dev
 docker-compose.prod.yml
 .env.example
 ```
-
----
-
-## Déploiement (Coolify)
-
-1. Pusher le repo sur Git
-2. Dans Coolify, créer une nouvelle app depuis `docker-compose.prod.yml`
-3. Configurer les variables d'environnement (voir `.env.example`)
-4. Déployer — HTTPS automatique via le reverse proxy Coolify
